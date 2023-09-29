@@ -2,11 +2,11 @@ name: Deploy to Cloud Run from Source
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "dev" ]
 
 env:
   PROJECT_ID: nest-docker-run-githubactions # TODO: update Google Cloud project id
-  SERVICE: nest-docker-googlerun-githubactions # TODO: update Cloud Run service name
+  SERVICE: nest-docker-googlerun-githubactions-dev # TODO: update Cloud Run service name
   REGION: us-central1 # TODO: update Cloud Run service region
 
 jobs:
