@@ -5,13 +5,12 @@ on:
     branches: [ "main" ]
 
 env:
-  PROJECT_ID: nest-docker-run-githubactions # TODO: update Google Cloud project id
-  SERVICE: nest-docker-googlerun-githubactions # TODO: update Cloud Run service name
-  REGION: us-central1 # TODO: update Cloud Run service region
+  PROJECT_ID: nest-docker-run-githubactions
+  SERVICE: nest-docker-googlerun-githubactions
+  REGION: us-central1
 
 jobs:
   deploy:
-    # Add 'id-token' with the intended permissions for workload identity federation
     permissions:
       contents: 'read'
       id-token: 'write'
@@ -25,15 +24,8 @@ jobs:
         id: auth
         uses: 'google-github-actions/auth@v0'
         with:
-          workload_identity_provider: '${{ secrets.WIF_PROVIDER }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
-          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
-
-      # NOTE: Alternative option - authentication via credentials json
-      # - name: Google Auth
-      #   id: auth
-      #   uses: 'google-github-actions/auth@v0'
-      #   with:
-      #     credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+          workload_identity_provider: '${{ secrets.WIF_PROVIDER }}'
+          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'
 
       - name: Deploy to Cloud Run
         id: deploy
@@ -41,9 +33,7 @@ jobs:
         with:
           service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
-          # NOTE: If required, update to the appropriate source folder
           source: ./
 
-      # If required, use the Cloud Run url output in later steps
       - name: Show Output
         run: echo ${{ steps.deploy.outputs.url }}
