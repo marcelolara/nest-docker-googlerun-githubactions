@@ -8,7 +8,7 @@ env:
   PROJECT_ID: nest-docker-run-githubactions
   SERVICE: nest-docker-googlerun-githubactions-dev
   REGION: us-central1
-  DATABASE_URL: postgresql://postgres:YQUFfE}R9`/M<5Pr@localhost:5432/postgres
+  DATABASE_URL: postgresql://postgres:YQUFfE}R9`/M<5Pr@localhost/exampledb
 
 jobs:
   deploy:
