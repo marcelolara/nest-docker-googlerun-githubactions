@@ -1,18 +1,16 @@
-# docker-compose.yml
-
 version: '3.8'
 services:
 
-  postgres:
+  ndggdb:
     image: postgres
     restart: always
     environment:
       - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=pasword
+      - POSTGRES_PASSWORD=password
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - ndggdb:/var/lib/postgresql/data
     ports:
-      - '5433:5433'
+      - 5434:5432
 
 volumes:
-  postgres:
+  ndggdb:

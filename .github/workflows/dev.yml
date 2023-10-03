@@ -35,5 +35,14 @@ jobs:
           region: ${{ env.REGION }}
           source: ./
 
+      - name: Download SQL Auth Proxy
+        run: "wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy"
+          
+      - name: Make the Cloud SQL Auth proxy executable
+        run: "chmod +x cloud_sql_proxy"
+          
+      - name: Start the Cloud SQL proxy
+        run: "./cloud_sql_proxy -instances=nest-docker-run-githubactions:us-central1:ndggdb-dev=tcp:5432 & npx prisma migrate deploy"
+
       - name: Show Output
         run: echo ${{ steps.deploy.outputs.url }}
