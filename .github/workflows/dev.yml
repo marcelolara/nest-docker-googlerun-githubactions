@@ -44,6 +44,9 @@ jobs:
           
       - name: Start the Cloud SQL proxy
         run: "./cloud_sql_proxy -instances=nest-docker-run-githubactions:us-central1:ndggdb-dev=tcp:5432 & npx prisma migrate deploy"
+        with:
+          env:
+            DATABASE_URL: ${{ env.DATABASE_URL }} 
 
       - name: Show Output
         run: echo ${{ steps.deploy.outputs.url }}
