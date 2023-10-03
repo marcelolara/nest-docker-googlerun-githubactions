@@ -8,7 +8,7 @@ env:
   PROJECT_ID: nest-docker-run-githubactions
   SERVICE: nest-docker-googlerun-githubactions-dev
   REGION: us-central1
-  DATABASE_URL: postgres://postgres:GyN24o%sx[}FY$=1@localhost/postgres?host=/cloudsql/nest-docker-run-githubactions:us-central1:ndggdb-dev
+  DATABASE_URL: postgresql://postgres:GyN24o%sx[}FY$=1@localhost:5432/postgres
 
 jobs:
   deploy:
@@ -44,9 +44,7 @@ jobs:
           
       - name: Start the Cloud SQL proxy
         run: "./cloud_sql_proxy -instances=nest-docker-run-githubactions:us-central1:ndggdb-dev=tcp:5432 & npx prisma migrate deploy"
-        with:
-          env:
-            DATABASE_URL: ${{ env.DATABASE_URL }} 
+        
 
       - name: Show Output
         run: echo ${{ steps.deploy.outputs.url }}
