@@ -8,6 +8,7 @@ env:
   PROJECT_ID: nest-docker-run-githubactions
   SERVICE: nest-docker-googlerun-githubactions-dev
   REGION: us-central1
+  DATABASE_URL: postgresql://postgres:${{ secrets.EXAMPLEDB_PSWD }}@localhost:5432/exampledb
 
 jobs:
   deploy:
@@ -62,9 +63,7 @@ jobs:
         run: sleep 5
 
       - name: Migrate Database
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: yarn prisma migrate deploy --preview-feature
+        run: yarn prisma migrate deploy
 
       - name: Stop Cloud SQL Proxy
         run: pkill cloud_sql_proxy
