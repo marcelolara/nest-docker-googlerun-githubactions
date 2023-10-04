@@ -40,6 +40,10 @@ jobs:
       #   run: echo ${{ steps.deploy.outputs.url }}
 
   migrate:
+    permissions:
+          contents: 'read'
+          id-token: 'write'
+          
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
