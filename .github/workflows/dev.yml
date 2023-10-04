@@ -43,7 +43,7 @@ jobs:
     permissions:
           contents: 'read'
           id-token: 'write'
-          
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -55,6 +55,9 @@ jobs:
         with:
           workload_identity_provider: '${{ secrets.WIF_PROVIDER }}'
           service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'
+
+      - name: Set Google Application Credentials
+        run: echo "${{ steps.auth.outputs.credentials }}" > cloudsql-proxy.json
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
