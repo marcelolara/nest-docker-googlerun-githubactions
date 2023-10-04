@@ -37,13 +37,16 @@ jobs:
           source: ./        
 
       - name: Download SQL Auth Proxy
-        run: "wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy"
+        run: wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
           
       - name: Make the Cloud SQL Auth proxy executable
-        run: "chmod +x cloud_sql_proxy"
+        run: chmod +x cloud_sql_proxy
           
       - name: Start the Cloud SQL proxy
-        run: "./cloud_sql_proxy -instances=${{ secrets.CLOUD_SQL_CONNECTION_NAME }}=tcp:5432 & npx prisma migrate deploy"      
+        run: ./cloud_sql_proxy -instances=${{ secrets.CLOUD_SQL_CONNECTION_NAME }}=tcp:5432 &
+
+      - name: Migrate Database
+        run: npx prisma migrate deploy
 
       - name: Stop Cloud SQL Proxy
         run: pkill cloud_sql_proxy  
