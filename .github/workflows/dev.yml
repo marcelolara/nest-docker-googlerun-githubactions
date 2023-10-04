@@ -11,11 +11,35 @@ env:
   DATABASE_URL: postgresql://postgres:${{ secrets.EXAMPLEDB_PSWD }}@localhost:5432/exampledb
 
 jobs:
-  deploy:
-    permissions:
-      contents: 'read'
-      id-token: 'write'
+  # deploy:
+  #   permissions:
+  #     contents: 'read'
+  #     id-token: 'write'
 
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+
+  #     - name: Google Auth
+  #       id: auth
+  #       uses: 'google-github-actions/auth@v1'
+  #       with:
+  #         workload_identity_provider: '${{ secrets.WIF_PROVIDER }}'
+  #         service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'
+
+      # - name: Deploy to Cloud Run
+      #   id: deploy
+      #   uses: google-github-actions/deploy-cloudrun@v1
+      #   with:
+      #     service: ${{ env.SERVICE }}
+      #     region: ${{ env.REGION }}
+      #     source: ./        
+
+      # - name: Show Output
+      #   run: echo ${{ steps.deploy.outputs.url }}
+
+  migrate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -27,23 +51,6 @@ jobs:
         with:
           workload_identity_provider: '${{ secrets.WIF_PROVIDER }}'
           service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'
-
-      - name: Deploy to Cloud Run
-        id: deploy
-        uses: google-github-actions/deploy-cloudrun@v1
-        with:
-          service: ${{ env.SERVICE }}
-          region: ${{ env.REGION }}
-          source: ./        
-
-      - name: Show Output
-        run: echo ${{ steps.deploy.outputs.url }}
-
-  migrate:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
