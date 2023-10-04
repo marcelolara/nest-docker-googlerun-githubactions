@@ -56,9 +56,6 @@ jobs:
           workload_identity_provider: '${{ secrets.WIF_PROVIDER }}'
           service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'
 
-      - name: Set Google Application Credentials
-        run: echo "${{ steps.auth.outputs.credentials }}" > cloudsql-proxy.json
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
 
@@ -69,7 +66,7 @@ jobs:
         run: |
           wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
           chmod +x cloud_sql_proxy
-          ./cloud_sql_proxy -instances=${{ secrets.CLOUD_SQL_CONNECTION_NAME }}=tcp:5432 -credential_file=cloudsql-proxy.json &
+          ./cloud_sql_proxy -instances=${{ secrets.CLOUD_SQL_CONNECTION_NAME }}=tcp:5432 -credential_file=${{ env.GOOGLE_APPLICATION_CREDENTIALS }} &
 
       - name: Wait for Cloud SQL Proxy to Start
         run: sleep 5
