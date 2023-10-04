@@ -2,7 +2,8 @@ name: Deploy to Cloud Run from Source for development
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: 
+      - dev
 
 env:
   PROJECT_ID: nest-docker-run-githubactions
